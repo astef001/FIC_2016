@@ -1,0 +1,5 @@
+c:\users\alex\documents\visual studio 2013\Projects\BtDoradoControl\BtDoradoControl\bin\Debug\BtDoradoControl.exe.config
+c:\users\alex\documents\visual studio 2013\Projects\BtDoradoControl\BtDoradoControl\bin\Debug\BtDoradoControl.exe
+c:\users\alex\documents\visual studio 2013\Projects\BtDoradoControl\BtDoradoControl\bin\Debug\BtDoradoControl.pdb
+c:\users\alex\documents\visual studio 2013\Projects\BtDoradoControl\BtDoradoControl\obj\Debug\BtDoradoControl.exe
+c:\users\alex\documents\visual studio 2013\Projects\BtDoradoControl\BtDoradoControl\obj\Debug\BtDoradoControl.pdb
