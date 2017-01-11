@@ -1,1 +1,1 @@
-/home/cloud/Downloads/testVideo/CMakeFiles/video.dir
+/home/cloud/proiect/FIC_2016/testVideo/CMakeFiles/video.dir

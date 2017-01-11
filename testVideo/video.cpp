@@ -1,6 +1,11 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 //#include <opencv2\highgui.h>
 #include "opencv2/highgui/highgui.hpp"
 //#include <opencv2\cv.h>
@@ -60,12 +65,12 @@ void createTrackbars() {
 	namedWindow(trackbarWindowName, 0);
 	//create memory to store trackbar name on window
 	char TrackbarName[50];
-/*	sprintf(TrackbarName, "H_MIN", H_MIN);
+	sprintf(TrackbarName, "H_MIN", H_MIN);
 	sprintf(TrackbarName, "H_MAX", H_MAX);
 	sprintf(TrackbarName, "S_MIN", S_MIN);
 	sprintf(TrackbarName, "S_MAX", S_MAX);
 	sprintf(TrackbarName, "V_MIN", V_MIN);
-	sprintf(TrackbarName, "V_MAX", V_MAX);*/
+	sprintf(TrackbarName, "V_MAX", V_MAX);
 	//create trackbars and insert them into window
 	//3 parameters are: the address of the variable that is changing when the trackbar is moved(eg.H_LOW),
 	//the max value the trackbar can move (eg. H_HIGH),
@@ -175,13 +180,59 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 		else putText(cameraFeed, "TOO MUCH NOISE! ADJUST FILTER", Point(0, 50), 1, 2, Scalar(0, 0, 255), 2);
 	}
 }
+
+struct RobotColor {
+	Scalar min, max;
+	std::string name;
+};
+
+static const std::pair<Scalar, Scalar> colors[] = {
+	{ Scalar(50, 208, 99), Scalar(111, 256, 256) }, // blue
+	{ Scalar(44, 244, 57), Scalar(80, 256, 256) }, // green
+	{ Scalar(0, 221, 190), Scalar(29, 256, 256) }, // red
+	// { Scalar(0, 41, 128), Scalar(254, 66, 256) }, // red
+	{ Scalar(16, 227, 184), Scalar(77, 256, 256) }, // yellow
+};
+
+static const RobotColor YELLOW { colors[3].first, colors[3].second, "yellow" };
+static const RobotColor BLUE { colors[0].first, colors[0].second, "blue" };
+static const RobotColor GREEN { colors[1].first, colors[1].second, "green" };
+static const RobotColor RED { colors[2].first, colors[2].second, "red" };
+
+static const RobotColor BLACK { Scalar(0, 240, 0), Scalar(256, 256, 20), "black" };
+
+
+//some boolean variables for different functionality within this
+//program
+bool trackObjects = true;
+bool useMorphOps = true;
+
+void getObjectPosition(int &x, int &y, const Mat& HSV, Mat& cameraFeed, const RobotColor& color)
+{
+	Mat threshold;
+	//filter HSV image between values and store filtered image to
+	//threshold matrix
+	inRange(HSV, color.min, color.max, threshold);
+
+	//perform morphological operations on thresholded image to eliminate noise
+	//and emphasize the filtered object(s)
+	if (useMorphOps)
+		morphOps(threshold);
+
+	//pass in thresholded frame to our object tracking function
+	//this function will return the x and y coordinates of the
+	//filtered object
+	if (trackObjects) {
+		trackFilteredObject(x, y, threshold, cameraFeed);
+	}
+}
+
 int main(int argc, char* argv[])
 {
-
-	//some boolean variables for different functionality within this
-	//program
-	bool trackObjects = true;
-	bool useMorphOps = true;
+	if (argc < 2) {
+		printf("Usage: %s <rtmp source>\n", argv[0]);
+		return 1;
+	}
 
 	Point p;
 	//Matrix to store each frame of the webcam feed
@@ -197,40 +248,73 @@ int main(int argc, char* argv[])
 	//video capture object to acquire webcam feed
 	VideoCapture capture;
 	//open capture object at location zero (default location for webcam)
-	capture.open(0);
+	printf("Opening stream %s...\n", argv[1]);
+	capture.open("rtmp://172.16.254.63/live/live");
 	//set height and width of capture frame
 	capture.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
 	//start an infinite loop where webcam feed is copied to cameraFeed matrix
 	//all of our operations will be performed within this loop
 
-
-
+	std::cout << "Connecting to robot..\n";
+	int robot = socket(AF_INET, SOCK_STREAM, 0);
+	if (robot == -1) {
+		perror("socket failed");
+	}
+	struct sockaddr_in robotAddress;
+	robotAddress.sin_family = AF_INET;
+	robotAddress.sin_port = htons(20231);
+	inet_aton("193.226.12.217", &robotAddress.sin_addr);
+	memset(robotAddress.sin_zero, 0, sizeof(robotAddress.sin_zero));
+	std::cout << "created socket; connecting..." << std::endl;
+	if (connect(robot, (struct sockaddr*) &robotAddress, sizeof(robotAddress)) != 0) {
+		perror("error connecting to robot");
+	}
+	/*std::cout << "sending right...\n";
+	if (send(robot, "r", 1, 0) != 1) {
+		perror("error sending command");
+	}
+	sleep(1);
+	/*if (send(robot, "s", 1, 0) != 1) {
+		perror("error sending command");
+	}
+	std::cout << "sent stop...\n";
+*/
+	RobotColor primary = RED, secondary = GREEN;
 
 	while (1) {
-
-
 		//store image to matrix
 		capture.read(cameraFeed);
+		if (cameraFeed.empty()) {
+			std::cout << "feed empty" << std::endl;
+			continue;
+		}
+
+
 		//convert frame from BGR to HSV colorspace
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
-		//filter HSV image between values and store filtered image to
-		//threshold matrix
-		inRange(HSV, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), threshold);
-		//perform morphological operations on thresholded image to eliminate noise
-		//and emphasize the filtered object(s)
-		if (useMorphOps)
-			morphOps(threshold);
-		//pass in thresholded frame to our object tracking function
-		//this function will return the x and y coordinates of the
-		//filtered object
-		if (trackObjects)
-			trackFilteredObject(x, y, threshold, cameraFeed);
 
+		int px, py, sx, sy;
+		getObjectPosition(px, py, HSV, cameraFeed, primary);
+		getObjectPosition(sx, sy, HSV, cameraFeed, secondary);
+		int tx, ty;
+		getObjectPosition(tx, ty, HSV, cameraFeed, BLUE);
+		int orientation_axis = int(atan(((double) sy - py)/(sx - px))  * 180 / 3.14156);
+		int orientation_enemy = int(atan(((double) ty - py)/(tx - px))  * 180 / 3.14156);
+		std::cout << "Position: x = " << px << " y = " << py << "\n" << std::endl;
+		std::cout << "Orientation friendly: " << orientation_axis << " Orientation enemy: " << orientation_enemy << std::endl;
+		std::cout << "\nPositionEnemy: x = " << tx << " y = " << ty << "\n" << std::endl;
+		//int det_Col = px*sy + sx*ty + py*tx - tx*sy - sx*py - ty*px;
+		if(orientation_axis != orientation_enemy){
+			send(robot, "l", 1, 0);
+			send(robot, "s", 1, 0);
+		}
+		else{
+			send(robot, "s", 1, 0);
+			send(robot, "f", 1, 0);
+		}
 		//show frames
-		imshow(windowName2, threshold);
 		imshow(windowName, cameraFeed);
-		imshow(windowName1, HSV);
 		setMouseCallback("Original Image", on_mouse, &p);
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command

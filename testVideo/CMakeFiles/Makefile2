@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cloud/Downloads/testVideo
+CMAKE_SOURCE_DIR = /home/cloud/proiect/FIC_2016/testVideo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cloud/Downloads/testVideo
+CMAKE_BINARY_DIR = /home/cloud/proiect/FIC_2016/testVideo
 
 #=============================================================================
 # Target rules for target CMakeFiles/video.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/cloud/Downloads/testVideo
 CMakeFiles/video.dir/all:
 	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/depend
 	$(MAKE) -f CMakeFiles/video.dir/build.make CMakeFiles/video.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cloud/Downloads/testVideo/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cloud/proiect/FIC_2016/testVideo/CMakeFiles  1
 	@echo "Built target video"
 .PHONY : CMakeFiles/video.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/video.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/video.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cloud/Downloads/testVideo/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cloud/proiect/FIC_2016/testVideo/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/video.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cloud/Downloads/testVideo/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cloud/proiect/FIC_2016/testVideo/CMakeFiles 0
 .PHONY : CMakeFiles/video.dir/rule
 
 # Convenience name for target.

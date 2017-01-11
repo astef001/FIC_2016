@@ -6,17 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/cloud/Downloads/testVideo/video.cpp
+/home/cloud/proiect/FIC_2016/testVideo/video.cpp
 sstream
 -
 string
 -
 iostream
 -
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+unistd.h
+-
 opencv2/highgui/highgui.hpp
-/home/cloud/Downloads/testVideo/opencv2/highgui/highgui.hpp
+/home/cloud/proiect/FIC_2016/testVideo/opencv2/highgui/highgui.hpp
 opencv2/opencv.hpp
-/home/cloud/Downloads/testVideo/opencv2/opencv.hpp
+/home/cloud/proiect/FIC_2016/testVideo/opencv2/opencv.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h

@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cloud/Downloads/testVideo
+CMAKE_SOURCE_DIR = /home/cloud/proiect/FIC_2016/testVideo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cloud/Downloads/testVideo
+CMAKE_BINARY_DIR = /home/cloud/proiect/FIC_2016/testVideo
 
 # Include any dependencies generated for this target.
 include CMakeFiles/video.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/video.dir/flags.make
 
 CMakeFiles/video.dir/video.cpp.o: CMakeFiles/video.dir/flags.make
 CMakeFiles/video.dir/video.cpp.o: video.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cloud/Downloads/testVideo/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cloud/proiect/FIC_2016/testVideo/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/video.dir/video.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/video.dir/video.cpp.o -c /home/cloud/Downloads/testVideo/video.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/video.dir/video.cpp.o -c /home/cloud/proiect/FIC_2016/testVideo/video.cpp
 
 CMakeFiles/video.dir/video.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/video.dir/video.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cloud/Downloads/testVideo/video.cpp > CMakeFiles/video.dir/video.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cloud/proiect/FIC_2016/testVideo/video.cpp > CMakeFiles/video.dir/video.cpp.i
 
 CMakeFiles/video.dir/video.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/video.dir/video.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cloud/Downloads/testVideo/video.cpp -o CMakeFiles/video.dir/video.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cloud/proiect/FIC_2016/testVideo/video.cpp -o CMakeFiles/video.dir/video.cpp.s
 
 CMakeFiles/video.dir/video.cpp.o.requires:
 .PHONY : CMakeFiles/video.dir/video.cpp.o.requires
@@ -125,6 +125,6 @@ CMakeFiles/video.dir/clean:
 .PHONY : CMakeFiles/video.dir/clean
 
 CMakeFiles/video.dir/depend:
-	cd /home/cloud/Downloads/testVideo && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cloud/Downloads/testVideo /home/cloud/Downloads/testVideo /home/cloud/Downloads/testVideo /home/cloud/Downloads/testVideo /home/cloud/Downloads/testVideo/CMakeFiles/video.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cloud/proiect/FIC_2016/testVideo && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cloud/proiect/FIC_2016/testVideo /home/cloud/proiect/FIC_2016/testVideo /home/cloud/proiect/FIC_2016/testVideo /home/cloud/proiect/FIC_2016/testVideo /home/cloud/proiect/FIC_2016/testVideo/CMakeFiles/video.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/video.dir/depend
 
